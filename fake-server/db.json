@@ -1,0 +1,56 @@
+{
+  "product-list": [
+    {
+      "id": 1,
+      "productName": "삼성냉장고",
+      "productCode": "asd123",
+      "shoppingMallCode": "mall-asd123",
+      "Category": "가전",
+      "BrandName": "samsung",
+      "MSRP": "180만",
+      "price": "150만",
+      "stock": "1450대",
+      "writer": "신중은",
+      "postingDate": "2021-08-05"
+    },
+    {
+      "productName": "헤어 드라이기",
+      "productCode": "qwe123",
+      "shoppingMallCode": "mall-qwe123",
+      "Category": "가전",
+      "BrandName": "syaomi",
+      "MSRP": "10만",
+      "price": "10만",
+      "stock": "100012개",
+      "writer": "홍길동",
+      "postingDate": "2021-08-05",
+      "id": 2
+    },
+    {
+      "productName": "플레이스테이션5",
+      "productCode": "rty654",
+      "shoppingMallCode": "mall-rty654",
+      "Category": "오락",
+      "BrandName": "sony",
+      "MSRP": "80만",
+      "price": "75만",
+      "stock": "5400개",
+      "writer": "마케다 히로시타",
+      "postingDate": "2021-08-05",
+      "id": 3
+    },
+    {
+      "productName": "리클라이너",
+      "productCode": "ghj987",
+      "shoppingMallCode": "mall-ghj987",
+      "Category": "가구",
+      "BrandName": "ikea",
+      "MSRP": "100만",
+      "price": "98만",
+      "stock": "140개",
+      "writer": "김갑생",
+      "postingDate": "2021-08-05",
+      "id": 4
+    }
+  ]
+}
