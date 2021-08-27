@@ -1,13 +1,6 @@
 import React from 'react';
 
-const Td = ({item, handleRemove, handleEdit}) => {
-    const onRemove = () => {
-    handleRemove(item.id)
-    }
-
-    const onEdit = () => {
-        handleEdit(item);
-    }
+const Td = ({item}) => {
 
     return (
         <>
@@ -27,9 +20,6 @@ const Td = ({item, handleRemove, handleEdit}) => {
             <td>{item.LastModifier}</td>
             <td>{item.ModifiedDate}</td>
             <td>{item.views}</td>
-            {/* <td onClick={onRemove} style={{backgroundColor:"red", border: '1px solid black'}} />
-            <td onclick={onEdit} style={{backgroundColor:"blue", border: '1px solid black' }} /> */}
-
         </tr>
         </>
     );
