@@ -51,6 +51,19 @@
       "writer": "김갑생",
       "postingDate": "2021-08-05",
       "id": 4
+    },
+    {
+      "productName": "디오스김치냉장고",
+      "productCode": "nb-938",
+      "shoppingMallCode": "nbdf-1928",
+      "Category": "가전",
+      "BrandName": "LG",
+      "MSRP": "452000",
+      "price": "400000",
+      "stock": "420대",
+      "writer": "신중은",
+      "postingDate": "2021-08-29",
+      "id": 5
     }
   ]
 }
