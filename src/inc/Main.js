@@ -57,7 +57,7 @@ function Main() {
   const ShowThMenu = ThMenus.map((ThManu) => <StyledTableCell>{ThManu}</StyledTableCell>)
   
   const TdMenus = ['id','productName','productCode','shoppingMallCode','Category','BrandName','MSRP','price','stock','writer','postingDate']
-  const ShowTdMenu = TdMenus.map((TdMenu) => <StyledTableCell key={TdMenu.toString()} value={TdMenu}></StyledTableCell>)    
+  const ShowTdMenu = TdMenus.map((TdMenu) => <StyledTableCell key={TdMenus}></StyledTableCell>)    
 
   return (
     <div>
@@ -72,30 +72,30 @@ function Main() {
           </TableHead>
           <TableBody>
             <TableRow info={info}>
-              {
-                info.map((item) => {
-                  
-                  return (
-                    <TableRow>
+              {info.map(({id,productName,productCode,shoppingMallCode,Category,BrandName,MSRP,price,stock,writer,postingDate}) => (
+
+                  <TableRow key={id+productName+productCode+shoppingMallCode+Category+BrandName+MSRP+price+stock+writer+postingDate}>
+                    
+                    {/* {
+                      <>
                       <StyledTableCell><input type={"checkbox"} /></StyledTableCell>
-                      <StyledTableCell>{item.id}</StyledTableCell>
-                      <StyledTableCell>{item.productName}</StyledTableCell>
-                      <StyledTableCell>{item.productCode}</StyledTableCell>
-                      <StyledTableCell>{item.shoppingMallCode}</StyledTableCell>
-                      <StyledTableCell>{item.Category}</StyledTableCell>
-                      <StyledTableCell>{item.BrandName}</StyledTableCell>
-                      <StyledTableCell>{item.MSRP}</StyledTableCell>
-                      <StyledTableCell>{item.price}</StyledTableCell>
-                      <StyledTableCell>{item.stock}</StyledTableCell>
-                      <StyledTableCell>{item.writer}</StyledTableCell>
-                      <StyledTableCell>{item.postingDate}</StyledTableCell>
-                      {/* {
-                      <StyledTableCell>{item.ShowTdMenu}</StyledTableCell>
-                      } */}
-                      
-                    </TableRow>
-                  )
-                })
+                      <StyledTableCell>{ShowTdMenu}</StyledTableCell>
+                      </>
+                    } */}
+                    <StyledTableCell><input type={"checkbox"} /></StyledTableCell>
+                    <StyledTableCell>{id}</StyledTableCell>
+                    <StyledTableCell>{productName}</StyledTableCell>
+                    <StyledTableCell>{productCode}</StyledTableCell>
+                    <StyledTableCell>{shoppingMallCode}</StyledTableCell>
+                    <StyledTableCell>{Category}</StyledTableCell>
+                    <StyledTableCell>{BrandName}</StyledTableCell>
+                    <StyledTableCell>{MSRP}</StyledTableCell>
+                    <StyledTableCell>{price}</StyledTableCell>
+                    <StyledTableCell>{stock}</StyledTableCell>
+                    <StyledTableCell>{writer}</StyledTableCell>
+                    <StyledTableCell>{postingDate}</StyledTableCell>
+                  </TableRow>
+                ))
               }
             </TableRow>
           </TableBody>    {/*  handleEdit={handleEdit} */}
