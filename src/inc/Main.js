@@ -16,14 +16,8 @@ import Modal from './Modal.js';
 function Main() {
 
   const [info, setInfo]=useState([]); //데이터 가져오기
-  const [selelcted, setSelected] = useState('');
+  const [selected, setSelected] = useState('');
   const [modalOn, setModalOn] = useState(false);
-
-  return (
-    <>
-    {modalOn ? ...<moda /> : null}
-    </>
-  )
 
   const nextId = useRef(11);
 
@@ -122,10 +116,10 @@ function Main() {
     console.log(selectedData);
     setSelected(selectedData);
   };
-  const handlelCancel = () => {
+  const handleCancel = () => {
     setModalOn(false);
   }
-  const handleEitSubmit = (item) => {
+  const handleEditSubmit = (item) => {
     console.log(item);
     handleSave(item);
     setModalOn(false);
@@ -193,6 +187,8 @@ function Main() {
       </TableContainer> 
         <Route path="/save" exact={true} component={Save} />
         <Button className={classes.RoutSaveButton} variant="contained" color="info"><Link to='/save'>추가</Link></Button>
+      {modalOn && <Modal selectedData={selected} handleCancel={handleCancel} handleEditSubmit={handleEditSubmit} />}
+    
     </div>
   )
 
