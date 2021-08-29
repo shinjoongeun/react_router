@@ -8,7 +8,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
-import Tr from './Tr';
 import {Route, Link} from 'react-router-dom';
 import Save from './Save.js';
 import {Button} from '@material-ui/core';
@@ -54,30 +53,52 @@ function Main() {
 
   const classes = useStyles();
 
+  const ThMenus = ['','번호','상품명','상품코드','쇼핑몰코드','카테고리','브랜드명','권장가','실제판매가','재고수량','작성자','작성일']
+  const ShowThMenu = ThMenus.map((ThManu) => <StyledTableCell>{ThManu}</StyledTableCell>)
+  
+  const TdMenus = ['id','productName','productCode','shoppingMallCode','Category','BrandName','MSRP','price','stock','writer','postingDate']
+  const ShowTdMenu = TdMenus.map((TdMenu) => <StyledTableCell key={TdMenu.toString()} value={TdMenu}></StyledTableCell>)    
+
   return (
     <div>
       <TableContainer component={Paper}>   
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell />
-              <StyledTableCell>번호</StyledTableCell>    {/* 여기에서 띄어쓰기를 할 경우에 한칸당 &nbsp 를 써주어야 한다 */}
-              <StyledTableCell>상품명</StyledTableCell>
-              <StyledTableCell>상품코드</StyledTableCell>
-              <StyledTableCell>쇼핑몰코드</StyledTableCell>
-              <StyledTableCell>카테고리</StyledTableCell>
-              <StyledTableCell>브랜드명</StyledTableCell>
-              <StyledTableCell>권장가</StyledTableCell>
-              <StyledTableCell>실제판매가</StyledTableCell>
-              <StyledTableCell>재고수량</StyledTableCell>
-              <StyledTableCell>작성자</StyledTableCell>
-              <StyledTableCell>작성일</StyledTableCell>
-              {/* <StyledTableCell>최근수정자</StyledTableCell>
-              <StyledTableCell>최근수정일</StyledTableCell>
-              <StyledTableCell>조회수</StyledTableCell> */}
+              {
+                <StyledTableCell>{ShowThMenu}</StyledTableCell>
+              }
             </TableRow>
           </TableHead>
-          <Tr info={info}/>    {/*  handleEdit={handleEdit} */}
+          <TableBody>
+            <TableRow info={info}>
+              {
+                info.map((item) => {
+                  
+                  return (
+                    <TableRow>
+                      <StyledTableCell><input type={"checkbox"} /></StyledTableCell>
+                      <StyledTableCell>{item.id}</StyledTableCell>
+                      <StyledTableCell>{item.productName}</StyledTableCell>
+                      <StyledTableCell>{item.productCode}</StyledTableCell>
+                      <StyledTableCell>{item.shoppingMallCode}</StyledTableCell>
+                      <StyledTableCell>{item.Category}</StyledTableCell>
+                      <StyledTableCell>{item.BrandName}</StyledTableCell>
+                      <StyledTableCell>{item.MSRP}</StyledTableCell>
+                      <StyledTableCell>{item.price}</StyledTableCell>
+                      <StyledTableCell>{item.stock}</StyledTableCell>
+                      <StyledTableCell>{item.writer}</StyledTableCell>
+                      <StyledTableCell>{item.postingDate}</StyledTableCell>
+                      {/* {
+                      <StyledTableCell>{item.ShowTdMenu}</StyledTableCell>
+                      } */}
+                      
+                    </TableRow>
+                  )
+                })
+              }
+            </TableRow>
+          </TableBody>    {/*  handleEdit={handleEdit} */}
         </Table>
       </TableContainer> 
         <Route path="/save" exact={true} component={Save} />

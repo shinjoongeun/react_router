@@ -3,7 +3,7 @@ import React from 'react';
 const Td = ({item}) => {
 
     return (
-        <>
+        
         <tr>
             <td><input type={"checkbox"} /></td>
             <td>{item.id}</td>
@@ -21,7 +21,7 @@ const Td = ({item}) => {
             <td>{item.ModifiedDate}</td>
             <td>{item.views}</td>
         </tr>
-        </>
+        
     );
 };
 

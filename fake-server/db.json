@@ -64,6 +64,19 @@
       "writer": "신중은",
       "postingDate": "2021-08-29",
       "id": 5
+    },
+    {
+      "productName": "1",
+      "productCode": "1",
+      "shoppingMallCode": "1",
+      "Category": "1",
+      "BrandName": "1",
+      "MSRP": "1",
+      "price": "1",
+      "stock": "1",
+      "writer": "1",
+      "postingDate": "1",
+      "id": 6
     }
   ]
 }
