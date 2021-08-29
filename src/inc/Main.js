@@ -14,7 +14,9 @@ import {Button} from '@material-ui/core';
 
 function Main() {
 
-  const [info, setInfo]=useState([]);
+  const [info, setInfo]=useState([]); //데이터 가져오기
+  const [selelcted, setSelected] = useState('');
+  const [modalOn, setModalOn] = useState(false)
 
   useEffect(()=>{  //초기 데이터 가져오기
     axios.get('http://localhost:4010/product-list')
@@ -50,6 +52,36 @@ function Main() {
       float: "right"
     }
   });
+
+  const handelRemove = (id) => {
+    setInfo(info => info.filter(item => item.id !== id));
+  }
+  const handleEdit = (item) => {
+    setModalOn(true);
+    const selectedData = {
+      id: item.id,
+      productName: item.productName,
+      productCode: item.productCode,
+      shoppingMallCode: item.shoppingMallCode,
+      Category: item.Category,
+      BrandName: item.BrandName,
+      MSRP: item.MSRP,
+      price: item.price,
+      stock: item.stock,
+      writer: item.writer,
+      postingDate: item.postingDate
+    };
+    console.log(selectedData);
+    setSelected(selectedData);
+  };
+  const handlelCancel = () => {
+    setModalOn(false);
+  }
+  const handleEitSubmit = (item) => {
+    console.log(item);
+    handleSave(item);
+    setModalOn(false);
+  }
 
   const classes = useStyles();
 
@@ -94,6 +126,8 @@ function Main() {
                     <StyledTableCell>{stock}</StyledTableCell>
                     <StyledTableCell>{writer}</StyledTableCell>
                     <StyledTableCell>{postingDate}</StyledTableCell>
+                    <StyledTableCell><Button onClick={onEdit} className='text-center text-purple-400 cursor-pointer show-modal'>수정<i class="far fa-edit" /></Button></StyledTableCell>
+                    <StyledTableCell><Button onclick={onRemove} className='text-center text-purple-400 sursor-pointer'>삭제<i class="far fa-trash-alt" /></Button></StyledTableCell>
                   </TableRow>
                 ))
               }
