@@ -82,7 +82,7 @@ const handleChange = (e) => { //여기에서 e 는 event object 이며  이벤�
                 </div>
                 <div>
 
-                    <Button className={classes.addButton} variant="contained" color="primary" endIcon={<FaPlus>add</FaPlus>} onClick={saveData}><Link to='/main'>저장</Link></Button>
+                    <Link to='/main'><Button className={classes.addButton} variant="contained" color="primary" endIcon={<FaPlus>add</FaPlus>} onClick={saveData}>저장</Button></Link>
                 </div>
                   <Button className={classes.RoutMainButton} variant="contained" color="secondary"><Link to='/main'>메인</Link></Button>
 
