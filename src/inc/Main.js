@@ -95,8 +95,12 @@ function Main() {
  
 
   const handelRemove = (id) => {
+    // alert(id);
     setInfo(info => info.filter(item => item.id !== id));
+
+    axios.delete('http://localhost:4010/product-list/'+id)
   }
+
   const handleEdit = (item) => {
     setModalOn(true);
 
@@ -176,7 +180,7 @@ function Main() {
                       <StyledTableCell>{item.writer}</StyledTableCell>
                       <StyledTableCell>{item.postingDate}</StyledTableCell>
                       <StyledTableCell><Button onClick={onEdit} className='text-center text-purple-400 cursor-pointer show-modal'>수정<i class="far fa-edit" /></Button></StyledTableCell>
-                      <StyledTableCell><Button onclick={onRemove} className='text-center text-purple-400 sursor-pointer'>삭제<i class="far fa-trash-alt" /></Button></StyledTableCell>
+                      <StyledTableCell><Button onClick={onRemove} className='text-center text-purple-400 sursor-pointer'>삭제<i class="far fa-trash-alt" /></Button></StyledTableCell>
                     </TableRow>
                   )}
                 )
