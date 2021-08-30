@@ -130,8 +130,8 @@ function Main() {
   const ThMenus = ['','번호','상품명','상품코드','쇼핑몰코드','카테고리','브랜드명','권장가','실제판매가','재고수량','작성자','작성일','수정', '삭제']
   const ShowThMenu = ThMenus.map((ThManu) => <StyledTableCell>{ThManu}</StyledTableCell>)
   
-  const TdMenus = ['id','productName','productCode','shoppingMallCode','Category','BrandName','MSRP','price','stock','writer','postingDate']
-  const ShowTdMenu = TdMenus.map((TdMenu) => <StyledTableCell key={TdMenus}></StyledTableCell>)    
+  // const TdMenus = ['id','productName','productCode','shoppingMallCode','Category','BrandName','MSRP','price','stock','writer','postingDate']
+  // const ShowTdMenu = TdMenus.map((TdMenu) => <StyledTableCell key={TdMenus}></StyledTableCell>)    
 
   return (
     <div>

@@ -1,4 +1,6 @@
-import React,{ useState } from 'react';
+import axios from 'axios';
+import React,{ useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 
 const Modal = ({ selectedData, handleCancel, handleEditSubmit }) => {
     const [edited, setEdited] = useState(selectedData);
@@ -19,8 +21,52 @@ const Modal = ({ selectedData, handleCancel, handleEditSubmit }) => {
         handleEditSubmit(edited);
     }
 
+    const dataEdit = () =>{
+        axios.put('http://localhost:4010/product-list/'+ selectedData.id ,{
+            productName: edited.productName,
+            productCode: edited.productCode,
+            shoppingMallCode: edited.shoppingMallCode,
+            Category: edited.Category,
+            BrandName: edited.BrandName,
+            MSRP: edited.MSRP,
+            price: edited.price,
+            stock: edited.stock,
+            writer: edited.writer,
+            postingDate: edited.postingDate
+        })
+    }
+
+    function rand() {
+        return Math.round(Math.random() * 20) - 10;
+    }
+
+    function getModalStyle() {
+        const top = 50 + rand();
+        const left = 50 + rand();
+
+        return {
+            top: `${top}%`,
+            left: `${left}%`,
+            transform: `translate(-${top}%, -${left}%)`,
+        };
+    }
+
+    const useStyles = makeStyles((theme) => ({
+    paper: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+    }));
+
+    const classes = useStyles();
+    const [modalStyle] = React.useState(getModalStyle);
+
     return (
-        <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-70">
+        <div style={modalStyle} className={classes.paper}>
             <div className="bg-white rounded shadow-lg w-10/12 md:w-1/3">
                 <div className="border-b px-4 py-2 flex justify-between items-center">
                 <h3 className="font-semibold text-lg">상품 정보 수정하기</h3>
@@ -44,7 +90,7 @@ const Modal = ({ selectedData, handleCancel, handleEditSubmit }) => {
                     </div>
                     <div className="flex justify-end items-center w-100 border-t p-3">
                         <button className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal" onClick={onCancel}>취소</button>
-                        <button className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white">수정</button>
+                        <button onClick={dataEdit}>수정</button>
                     </div>
                 </form>
             </div>
