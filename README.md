@@ -68,3 +68,17 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+2021-08-30 회의
+REACT
+1. package.json script의 start에 json 띄우는 것 넣기
+2. Save 페이지를 수정 페이지로 사용해볼것
+3. onsubmit을 뺄것 -> 어차피 put 으로 데이터 넣으면 컴포넌트 렌더링 할 때 갱신되어 나타나기 때문에
+4. onedit에 props 넣고 return 안에 const onremove 없애기
+5. redux 사용법 알기
+6. table 에서 material ui 사용해서 row를 선택했을 때 row 전체게 스타일 주고 체크박스에 체크되게 할것 (이걸로 특정 데이터 가르키기)
+
+pims pms
+차트 수정
+도넛 차트의 빈 부분을 쪼개서 name 부여할 것
+
