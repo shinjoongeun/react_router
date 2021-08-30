@@ -84,7 +84,7 @@ const handleChange = (e) => { //여기에서 e 는 event object 이며  이벤�
 
                     <Button className={classes.addButton} variant="contained" color="primary" endIcon={<FaPlus>add</FaPlus>} onClick={saveData}><Link to='/main'>저장</Link></Button>
                 </div>
-                  <Button className={classes.RoutMainButton} variant="contained" color="teal"><Link to='/main'>메인</Link></Button>
+                  <Button className={classes.RoutMainButton} variant="contained" color="secondary"><Link to='/main'>메인</Link></Button>
 
         </>
   )
