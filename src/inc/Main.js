@@ -1,94 +1,196 @@
+import React, {useEffect, useState, useRef} from 'react';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
-import React,{ useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {Route, Link} from 'react-router-dom';
+import Save from './Save.js';
+import {Button} from '@material-ui/core';
+import Modal from './Modal.js';
 
-const Modal = ({ selectedData, handleCancel, handleEditSubmit }) => {
-    const [edited, setEdited] = useState(selectedData);
-    console.log(selectedData); //클릭된 데이터 가져오는게 확인됨
-    const onCancel = () => {
-        handleCancel();
-    }
+function Main() {
 
-    const onEditChange = (e) => {
-        setEdited({
-            ...edited,
-            [e.target.name] : e.target.value
-        })
-    }
+  const [info, setInfo]=useState([]); //데이터 가져오기
+  const [selected, setSelected] = useState('');
+  const [modalOn, setModalOn] = useState(false);
 
-    const dataEdit = (e) =>{
-        axios.put('http://localhost:4010/product-list/'+ selectedData.id ,{
-            productName: edited.productName,
-            productCode: edited.productCode,
-            shoppingMallCode: edited.shoppingMallCode,
-            Category: edited.Category,
-            BrandName: edited.BrandName,
-            MSRP: edited.MSRP,
-            price: edited.price,
-            stock: edited.stock,
-            writer: edited.writer,
-            postingDate: edited.postingDate
-        })
-        handleCancel();
-        handleEditSubmit(edited);
-    }
+  const nextId = useRef(11);
 
-   
+  useEffect(()=>{  //초기 데이터 가져오기
+    axios.get('http://localhost:4010/product-list')
+      .then(response => setInfo(response.data)) 
+      .catch(err => console.log(err))
+  }, []);
 
-    function getModalStyle() {
-        const top = 40
-        const left = 50
-
-        return {
-            top: `${top}%`,
-            left: `${left}%`,
-            transform: `translate(-${top}%, -${left}%)`,
-        };
-    }
-
-    const useStyles = makeStyles((theme) => ({
-    paper: {
-        position: 'absolute',
-        width: 400,
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
+  const StyledTableCell = withStyles((theme) => ({
+    head: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
     },
-    }));
+    body: {
+        fontSize: 14,
+    },
+  }))(TableCell);
 
-    const classes = useStyles();
-    const [modalStyle] = React.useState(getModalStyle);
+  const useStyles = makeStyles({  // table의 css 영역
+    table: {
+        minWidth: 1500, // min-width css 속성은 요소의 최소 너비를 설정한다 -> min-width 는 width 속성의 사용값이 자신의 값 보다 작아지는 것을 방지한다.
+        width: "90%",
+        marginLeft:"auto",
+        marginRight:"auto"
+    },
+    number: {
+        textAlign: "center"
+    },
+    views: {
+        textAlign: "center"
+    },
+    RoutSaveButton: {
+      margin: '10px 100px 10px 0px',
+      float: "right"
+    }
+  });
 
-    return (
-        <div style={modalStyle} className={classes.paper}>
-            <div className="bg-white rounded shadow-lg w-10/12 md:w-1/3">
-                <div className="border-b px-4 py-2 flex justify-between items-center">
-                <h3 className="font-semibold text-lg">상품 정보 수정하기</h3>
-                <i className="fas fa-times curcor-pointer" onClick={onCancel}></i>
-                </div>
-                    <div class="p-3">
+ const handleSave = (data) => {
+   //데이터 수정하기
+   if (data.id) { //수정 데이터에는 id 가 존재
+    setInfo(
+      info.map(row => data.id === row.id ? {
+        id: data.id,
+        productName: data.productName,
+        productCode: data.productCode,
+        shoppingMallCode: data.shoppingMallCode,
+        Category: data.Category,
+        BrandName: data.BrandName,
+        MSRP: data.MSRP,
+        price: data.price,
+        stock: data.stock,
+        writer: data.writer,
+        postingDate: data.postingDate
+      } : row))
+    } else {
+      setInfo(info => info.concat(
+        {
+          id: nextId.current,
+          productName: data.productName,
+          productCode: data.productCode,
+          shoppingMallCode: data.shoppingMallCode,
+          Category: data.Category,
+          BrandName: data.BrandName,
+          MSRP: data.MSRP,
+          price: data.price,
+          stock: data.stock,
+          writer: data.writer,
+          postingDate: data.postingDate
+        }
+      ))
+      nextId.current += 1;
+    }
+   }
+ 
 
-                        <div>ID: {edited.id}</div>
-                        <div>상품명: <input className='border-2 boeder-grey-100' type='text' name='productName' value={edited.productName} onChange={onEditChange} /></div>
-                        <div>상품코드: <input className='border-2 boeder-grey-100' type='text' name='productCode' value={edited.productCode} onChange={onEditChange} /></div>
-                        <div>쇼핑몰코드: <input className='border-2 boeder-grey-100' type='text' name='shoppingMallCode' value={edited.shoppingMallCode} onChange={onEditChange} /></div>
-                        <div>카테고리: <input className='border-2 boeder-grey-100' type='text' name='Category' value={edited.Category} onChange={onEditChange} /></div>
-                        <div>브랜드명: <input className='border-2 boeder-grey-100' type='text' name='BrandName' value={edited.BrandName} onChange={onEditChange} /></div>
-                        <div>권장가: <input className='border-2 boeder-grey-100' type='text' name='MSRP' value={edited.MSRP} onChange={onEditChange} /></div>
-                        <div>실제판매가: <input className='border-2 boeder-grey-100' type='text' name='price' value={edited.price} onChange={onEditChange} /></div>
-                        <div>재고수량: <input className='border-2 boeder-grey-100' type='text' name='stock' value={edited.stock} onChange={onEditChange} /></div>
-                        <div>작성자: <input className='border-2 boeder-grey-100' type='text' name='writer' value={edited.writer} onChange={onEditChange} /></div>
-                        <div>작성일: <input className='border-2 boeder-grey-100' type='text' name='postingDate' value={edited.postingDate} onChange={onEditChange} /></div>
-                        
-                    </div>
-                    <div className="flex justify-end items-center w-100 border-t p-3">
-                        <button className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal" onClick={onCancel}>취소</button>
-                        <button onClick={dataEdit}>수정</button>
-                    </div>
-            </div>
-        </div>
-    );
-};
+  const handelRemove = (id) => {
+    // alert(id);
+    setInfo(info => info.filter(item => item.id !== id));
 
-export default Modal;
+    axios.delete('http://localhost:4010/product-list/'+id)
+  }
+
+  const handleEdit = (item) => {
+    setModalOn(true);
+
+    const selectedData = {
+      id: item.id,
+      productName: item.productName,
+      productCode: item.productCode,
+      shoppingMallCode: item.shoppingMallCode,
+      Category: item.Category,
+      BrandName: item.BrandName,
+      MSRP: item.MSRP,
+      price: item.price,
+      stock: item.stock,
+      writer: item.writer,
+      postingDate: item.postingDate
+    };
+    console.log(selectedData);
+    setSelected(selectedData);
+  };
+
+  const handleCancel = () => {
+    setModalOn(false);
+  }
+  
+  const handleEditSubmit = (item) => {
+    console.log(item);
+    handleSave(item);
+    setModalOn(false);
+  }
+
+  const classes = useStyles();
+
+  const ThMenus = ['','번호','상품명','상품코드','쇼핑몰코드','카테고리','브랜드명','권장가','실제판매가','재고수량','작성자','작성일','수정', '삭제']
+  const ShowThMenu = ThMenus.map((ThManu) => <StyledTableCell>{ThManu}</StyledTableCell>)
+  
+  // const TdMenus = ['id','productName','productCode','shoppingMallCode','Category','BrandName','MSRP','price','stock','writer','postingDate']
+  // const ShowTdMenu = TdMenus.map((TdMenu) => <StyledTableCell key={TdMenus}></StyledTableCell>)    
+
+  return (
+    <div>
+      <TableContainer component={Paper}>   
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              {
+                <StyledTableCell>{ShowThMenu}</StyledTableCell>
+              }
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow info={info}>
+              {info.map((item) => {
+
+                  return(
+                    <TableRow>
+                      {/* {
+                        <>
+                        <StyledTableCell><input type={"checkbox"} /></StyledTableCell>
+                        <StyledTableCell>{ShowTdMenu}</StyledTableCell>
+                        </>
+                      } */}
+                      <StyledTableCell><input type={"checkbox"} /></StyledTableCell>
+                      <StyledTableCell>{item.id}</StyledTableCell>
+                      <StyledTableCell>{item.productName}</StyledTableCell>
+                      <StyledTableCell>{item.productCode}</StyledTableCell>
+                      <StyledTableCell>{item.shoppingMallCode}</StyledTableCell>
+                      <StyledTableCell>{item.Category}</StyledTableCell>
+                      <StyledTableCell>{item.BrandName}</StyledTableCell>
+                      <StyledTableCell>{item.MSRP}</StyledTableCell>
+                      <StyledTableCell>{item.price}</StyledTableCell>
+                      <StyledTableCell>{item.stock}</StyledTableCell>
+                      <StyledTableCell>{item.writer}</StyledTableCell>
+                      <StyledTableCell>{item.postingDate}</StyledTableCell>
+                      <StyledTableCell><Button onClick={() => handleEdit(item)} className='text-center text-purple-400 cursor-pointer show-modal'>수정<i class="far fa-edit" /></Button></StyledTableCell>
+                      <StyledTableCell><Button onClick={() => handelRemove(item.id)} className='text-center text-purple-400 sursor-pointer'>삭제<i class="far fa-trash-alt" /></Button></StyledTableCell>
+                    </TableRow>
+                  )}
+                )
+              }
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer> 
+        <Route path="/save" exact={true} component={Save} />
+        <Button className={classes.RoutSaveButton} variant="contained" color="info"><Link to='/save'>추가</Link></Button>
+      {modalOn && <Modal selectedData={selected} handleCancel={handleCancel} handleEditSubmit={handleEditSubmit} />}
+    
+    </div>
+  )
+
+}
+
+export default Main;
