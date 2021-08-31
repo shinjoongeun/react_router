@@ -23,8 +23,8 @@ function Main() {
 
   useEffect(()=>{  //초기 데이터 가져오기
     axios.get('http://localhost:4010/product-list')
-      .then(response=>setInfo(response.data)) 
-      .catch(err=>console.log(err))
+      .then(response => setInfo(response.data)) 
+      .catch(err => console.log(err))
   }, []);
 
   const StyledTableCell = withStyles((theme) => ({
@@ -120,9 +120,11 @@ function Main() {
     console.log(selectedData);
     setSelected(selectedData);
   };
+
   const handleCancel = () => {
     setModalOn(false);
   }
+  
   const handleEditSubmit = (item) => {
     console.log(item);
     handleSave(item);
@@ -152,13 +154,6 @@ function Main() {
             <TableRow info={info}>
               {info.map((item) => {
 
-                const onRemove = () => {
-                  handelRemove(item.id)
-                }
-                const onEdit = () => {
-                  handleEdit(item);
-                }
-
                   return(
                     <TableRow>
                       {/* {
@@ -179,8 +174,8 @@ function Main() {
                       <StyledTableCell>{item.stock}</StyledTableCell>
                       <StyledTableCell>{item.writer}</StyledTableCell>
                       <StyledTableCell>{item.postingDate}</StyledTableCell>
-                      <StyledTableCell><Button onClick={onEdit} className='text-center text-purple-400 cursor-pointer show-modal'>수정<i class="far fa-edit" /></Button></StyledTableCell>
-                      <StyledTableCell><Button onClick={onRemove} className='text-center text-purple-400 sursor-pointer'>삭제<i class="far fa-trash-alt" /></Button></StyledTableCell>
+                      <StyledTableCell><Button onClick={() => handleEdit(item)} className='text-center text-purple-400 cursor-pointer show-modal'>수정<i class="far fa-edit" /></Button></StyledTableCell>
+                      <StyledTableCell><Button onClick={() => handelRemove(item.id)} className='text-center text-purple-400 sursor-pointer'>삭제<i class="far fa-trash-alt" /></Button></StyledTableCell>
                     </TableRow>
                   )}
                 )
