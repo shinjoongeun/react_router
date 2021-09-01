@@ -12,12 +12,15 @@ import {Route, Link} from 'react-router-dom';
 import Save from './Save.js';
 import {Button} from '@material-ui/core';
 import Modal from './Modal.js';
+import Checkbox from '@material-ui/core/Checkbox';
+import Modify from './Modify.js';
 
 function Main() {
 
   const [info, setInfo]=useState([]); //데이터 가져오기
   const [selected, setSelected] = useState('');
-  const [modalOn, setModalOn] = useState(false);
+  // const [modalOn, setModalOn] = useState(false);
+  const [modifyOn, setModifyOn] = useState('');
 
   const nextId = useRef(11);
 
@@ -26,16 +29,6 @@ function Main() {
       .then(response => setInfo(response.data)) 
       .catch(err => console.log(err))
   }, []);
-
-  const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-  }))(TableCell);
 
   const useStyles = makeStyles({  // table의 css 영역
     table: {
@@ -102,7 +95,8 @@ function Main() {
   }
 
   const handleEdit = (item) => {
-    setModalOn(true);
+    // setModalOn(true);
+    setModifyOn();
 
     const selectedData = {
       id: item.id,
@@ -122,22 +116,41 @@ function Main() {
   };
 
   const handleCancel = () => {
-    setModalOn(false);
+    // setModalOn(true);
+    setModifyOn();
   }
   
   const handleEditSubmit = (item) => {
     console.log(item);
     handleSave(item);
-    setModalOn(false);
+    // setModalOn(true);
+    setModifyOn();
   }
 
   const classes = useStyles();
 
   const ThMenus = ['','번호','상품명','상품코드','쇼핑몰코드','카테고리','브랜드명','권장가','실제판매가','재고수량','작성자','작성일','수정', '삭제']
-  const ShowThMenu = ThMenus.map((ThManu) => <StyledTableCell>{ThManu}</StyledTableCell>)
+  const ShowThMenu = ThMenus.map((ThManu) => <TableCell>{ThManu}</TableCell>)
   
   // const TdMenus = ['id','productName','productCode','shoppingMallCode','Category','BrandName','MSRP','price','stock','writer','postingDate']
-  // const ShowTdMenu = TdMenus.map((TdMenu) => <StyledTableCell key={TdMenus}></StyledTableCell>)    
+  // const ShowTdMenu = TdMenus.map((TdMenu) => <TableCell key={TdMenus}></TableCell>)    
+  // const [checkedData, setcheckedData] = useState['']
+  
+  function handleCheckbox(e) {
+    const checkedTd = e.target.parentNode.parentNode.parentNode;
+    checkedTd.style.backgroundColor = (e.target.checked) ? "blue" : "white";
+    
+    const checkedTr = checkedTd.parentNode;
+    checkedTr.style.backgroundColor = (e.target.checked) ? "#b0d3ad" : " #fff";
+
+    let checkedBoxValue = '';
+    if(e.target.checked) {
+      checkedBoxValue = e.target.value
+    }else {
+      checkedBoxValue = '';
+    }
+    alert(checkedBoxValue);
+  }
 
   return (
     <div>
@@ -146,7 +159,7 @@ function Main() {
           <TableHead>
             <TableRow>
               {
-                <StyledTableCell>{ShowThMenu}</StyledTableCell>
+                <TableCell>{ShowThMenu}</TableCell>
               }
             </TableRow>
           </TableHead>
@@ -154,28 +167,28 @@ function Main() {
             <TableRow info={info}>
               {info.map((item) => {
 
-                  return(
-                    <TableRow>
-                      {/* {
-                        <>
-                        <StyledTableCell><input type={"checkbox"} /></StyledTableCell>
-                        <StyledTableCell>{ShowTdMenu}</StyledTableCell>
-                        </>
-                      } */}
-                      <StyledTableCell><input type={"checkbox"} /></StyledTableCell>
-                      <StyledTableCell>{item.id}</StyledTableCell>
-                      <StyledTableCell>{item.productName}</StyledTableCell>
-                      <StyledTableCell>{item.productCode}</StyledTableCell>
-                      <StyledTableCell>{item.shoppingMallCode}</StyledTableCell>
-                      <StyledTableCell>{item.Category}</StyledTableCell>
-                      <StyledTableCell>{item.BrandName}</StyledTableCell>
-                      <StyledTableCell>{item.MSRP}</StyledTableCell>
-                      <StyledTableCell>{item.price}</StyledTableCell>
-                      <StyledTableCell>{item.stock}</StyledTableCell>
-                      <StyledTableCell>{item.writer}</StyledTableCell>
-                      <StyledTableCell>{item.postingDate}</StyledTableCell>
-                      <StyledTableCell><Button onClick={() => handleEdit(item)} className='text-center text-purple-400 cursor-pointer show-modal'>수정<i class="far fa-edit" /></Button></StyledTableCell>
-                      <StyledTableCell><Button onClick={() => handelRemove(item.id)} className='text-center text-purple-400 sursor-pointer'>삭제<i class="far fa-trash-alt" /></Button></StyledTableCell>
+                  return(   // "#b0d3ad"
+                     <TableRow value={item.id} hover> 
+                      <TableCell padding="checkbox">
+                        <Checkbox color="primary" value={item.id} onClick={handleCheckbox} />
+                      </TableCell>
+                      <TableCell>{item.id}</TableCell>
+                      <TableCell>{item.productName}</TableCell>
+                      <TableCell>{item.productCode}</TableCell>
+                      <TableCell>{item.shoppingMallCode}</TableCell>
+                      <TableCell>{item.Category}</TableCell>
+                      <TableCell>{item.BrandName}</TableCell>
+                      <TableCell>{item.MSRP}</TableCell>
+                      <TableCell>{item.price}</TableCell>
+                      <TableCell>{item.stock}</TableCell>
+                      <TableCell>{item.writer}</TableCell>
+                      <TableCell>{item.postingDate}</TableCell>
+                      <TableCell>
+                        <Link to='/modify'><Button onClick={() => handleEdit(item)} className='text-center text-purple-400 cursor-pointer show-modal'>수정<i class="far fa-edit" /></Button></Link>
+                      </TableCell>
+                      <TableCell>
+                        <Button onClick={() => handelRemove(item.id)} className='text-center text-purple-400 sursor-pointer'>삭제<i class="far fa-trash-alt" /></Button>
+                      </TableCell>
                     </TableRow>
                   )}
                 )
@@ -186,7 +199,8 @@ function Main() {
       </TableContainer> 
         <Route path="/save" exact={true} component={Save} />
         <Button className={classes.RoutSaveButton} variant="contained" color="info"><Link to='/save'>추가</Link></Button>
-      {modalOn && <Modal selectedData={selected} handleCancel={handleCancel} handleEditSubmit={handleEditSubmit} />}
+      {/* {modalOn && <Modal selectedData={selected} handleCancel={handleCancel} handleEditSubmit={handleEditSubmit} />} */}
+      {modifyOn && <Modify selectedData={selected} handleCancel={handleCancel} handleEditSubmit={handleEditSubmit} />}
     
     </div>
   )
